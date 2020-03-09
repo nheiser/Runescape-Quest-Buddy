@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+ul, #myUL {
+	list-style-type: none;
+}
+
+#myUL {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #e2dbc8;
+}
+
+.content {
+	background:url('https://www.runescape.com/img/rsp777/scroll/backdrop_745.gif') repeat-y center top;
+	
+	margin-right: 25%;
+	margin-left: 25%;
+	padding:50px 100px;
+	position:relative;
+	max-width: 500px;
+	
+	
+}
+.content:before,
+.content:after {
+	background:url('https://www.runescape.com/img/rsp777/scroll/backdrop_765_top.gif') no-repeat center top;
+	content:'';
+	height:50px;
+	left:0;
+	position:absolute;
+	top:-11px;
+	width:100%;
+}
+
+.content:after {
+	background:url('https://www.runescape.com/img/rsp777/scroll/backdrop_765_bottom.gif') no-repeat center bottom;
+	bottom:-11px;
+	top: auto;
+}
+
+
+.chip {
+	display: inline-block;
+	padding: 0 25px;
+	height: 45px;
+	font-size: 16px;
+	line-height: 45px;
+	border-radius: 25px;
+	background-color: #FF0000; /* #f44336 */
+	border-style: solid;
+}
+
+.chip.ready {
+
+	background-color: #FFFF00; /* #ff9800 */
+
+}
+
+.chip.active {
+	background-color: #0DC10D; /* #4caf50 */
+}
+
+.chip img {
+	float: left;
+	margin: 0 10px 0 -25px;
+	height: 45px;
+	width: 45px;
+	border-radius: 50%;
+}
+
+
+/* Responsive columns */
+@media screen and (max-width: 600px) {
+.column {
+	width: 100%;
+	display: block;
+	margin-bottom: 20px;
+}
+}
+
+
+.label {
+	color: black;
+	padding: 8px;
+	font-family: Arial;
+	border-radius: 0px;
+}
+.completed {background-color: #0DC10D;} /* Green */ /* #4caf50 */
+.completable {background-color: #FFFF00;} /* Orange */ /* #ff9800 */
+.uncompletable {background-color: #FF0000;} /* Red */ /* #f44336 */
+
+
+
+.btn {
+	border: none;
+	color: black;
+	padding: 8px 8px;
+	font-size: 14px;
+	cursor: pointer;
+	border-radius: 8px;
+	background-color: #e7e7e7;
+}
+.btn:hover {
+	background: #0DC10D;
+
+}
+
+.success {
+	background-color: #0DC10D; /* Green */
+
+}
+
+.success:hover {background-color: #0DC10D;}
+
+
+.caret {
+
+cursor: pointer;
+-webkit-user-select: none; /* Safari 3.1+ */
+-moz-user-select: none; /* Firefox 2+ */
+-ms-user-select: none; /* IE 10+ */
+user-select: none;
+}
+
+
+.caret::before {
+	content: "\2610";
+	color: black;
+	display: inline-block;
+	margin-right: 6px;
+}
+
+.caret-down::before {
+	content: "\2611";
+}
+
+.collapsed {
+
+	display: none;
+
+}
+
+.open {
+	display: block;
+}
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+
+.switch input { 
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+input:checked + .slider {
+	background-color: #00FF00;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+-webkit-transform: translateX(26px);
+-ms-transform: translateX(26px);
+transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+.nested {
+	border-left: 1px dotted black;
+}
+
+
+.sidenav {
+	height: 100%;
+	width: 25%;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	background-color: #342C21;		/*#CFC099*/	/*#DACBA4*/
+	overflow-x: hidden;
+	padding-top: 20px;
+	text-align: left;
+	line-height: 0.5;
+}
+.sidenav.left {
+	left: 0;
+}
+.sidenav.right {
+	right: 0;
+}
+.sidenav > ul > span {
+	color: red;
+}
+
+.sidenav > ul > span.ready {
+	color: yellow;
+}
+.sidenav > ul > span.active {
+	color: green;
+}
+.sidenav > ul > span:hover {
+	color: white;
+	cursor: pointer;
+}
+
+
+</style>
+
+</head>
+
+<title>OSRS Quest Tracker</title>
+
+
+<div class="sidenav left">
+
+
+</div>
+<!--144-(46+21)=77-->
+<div id="questbar" class="sidenav right">
+
+<h2 style="text-align: center; color: green">Free Quests</h2>
+
+<ul><span class="3 leaf ready quest">Black Knights' Fortress</span></ul>
+<ul><span class="1 leaf ready quest">Cook's Assistant</span></ul>
+<ul><span class="2 leaf ready quest">The Corsair Curse</span></ul>
+<ul><span class="3 leaf ready quest">Demon Slayer</span></ul>
+<ul><span class="1 leaf ready quest">Doric's Quest</span></ul>
+<ul><span class="2 leaf ready quest">Dragon Slayer</span></ul>
+<ul><span class="4 leaf ready quest">Ernest the Chicken</span></ul>
+<ul><span class="5 leaf ready quest">Goblin Diplomacy</span></ul>
+<ul><span class="1 leaf ready quest">Imp Catcher</span></ul>
+<ul><span class="1 leaf ready quest">The Knight's Sword</span></ul>
+<ul><span class="1 leaf ready quest">Misthalin Mystery</span></ul>
+<ul><span class="2 leaf ready quest">Pirate's Treasure</span></ul>
+<ul><span class="3 leaf ready quest">Prince Ali Rescue</span></ul>
+<ul><span class="1 leaf ready quest">The Restless Ghost</span></ul>
+<ul><span class="5 leaf ready quest">Romeo &amp; Juliet</span></ul>
+<ul><span class="1 leaf ready quest">Rune Mysteries</span></ul>
+<ul><span class="1 leaf ready quest">Sheep Shearer</span></ul>
+<ul><span class="1 leaf ready quest">Shield of Arrav</span></ul>
+<ul><span class="3 leaf ready quest">Vampire Slayer</span></ul>
+<ul><span class="1 leaf ready quest">Witch's Potion</span></ul>
+<ul><span class="1 leaf ready quest">X Marks the Spot</span></ul>
+
+<h2 style="text-align: center; color: green">Members' Quests</h2>
+
+<ul><span class="1 quest">Animal Magnetism</span></ul>
+<ul><span class="1 quest">Another Slice of H.A.M.</span></ul>
+<ul><span class="1 quest">The Ascent of Arceuus</span></ul>
+<ul><span class="2 quest">Between A Rock...</span></ul>
+<ul><span class="2 leaf ready quest">Big Chompy Bird Hunting</span></ul>
+<ul><span class="3 quest">Biohazard</span></ul>
+<ul><span class="1 quest">Bone Voyage</span></ul>
+<ul><span class="2 quest">Cabin Fever</span></ul>
+<ul><span class="1 leaf ready quest">Client of Kourend</span></ul>
+<ul><span class="1 leaf ready quest">Clock Tower</span></ul>
+<ul><span class="1 leaf ready quest">Cold War</span></ul>
+<ul><span class="1 quest">Contact!</span></ul>
+<ul><span class="2 quest">Creature of Fenkenstrain</span></ul>
+<ul><span class="2 quest">Darkness of Hallowvale</span></ul>
+<ul><span class="1 leaf ready quest">Death Plateau</span></ul>
+<ul><span class="1 quest">Death to the Dorgeshuun</span></ul>
+<ul><span class="1 quest">The Depths of Despair</span></ul>
+<ul><span class="3 quest">Desert Treasure</span></ul>
+<ul><span class="1 quest">Devious Minds</span></ul>
+<ul><span class="2 quest">The Dig Site</span></ul>
+<ul><span class="5 quest">Dragon Slayer II</span></ul>
+<ul><span class="2 quest">Dream Mentor</span></ul>
+<ul><span class="4 leaf ready quest">Druidic Ritual</span></ul>
+<ul><span class="1 leaf ready quest">Dwarf Cannon</span></ul>
+<ul><span class="1 quest">Eadgar's Ruse</span></ul>
+<ul><span class="2 leaf ready quest">Eagles' Peak</span></ul>
+<ul><span class="1 leaf ready quest">Elemental Workshop I</span></ul>
+<ul><span class="1 quest">Elemental Workshop II</span></ul>
+<ul><span class="2 leaf ready quest">Enakhra's Lament</span></ul>
+<ul><span class="1 leaf ready quest">Enlightened Journey</span></ul>
+<ul><span class="2 quest">The Eyes of Glouphrie</span></ul>
+<ul><span class="2 quest">Fairytale I - Growing Pains</span></ul>
+<ul><span class="2 quest">Fairytale II - Cure a Queen</span></ul>
+<ul><span class="1 leaf ready quest">Family Crest</span></ul>
+<ul><span class="1 leaf ready quest">The Feud</span></ul>
+<ul><span class="2 leaf ready quest">Fight Arena</span></ul>
+<ul><span class="1 leaf ready quest">Fishing Contest</span></ul>
+<ul><span class="2 quest">Forgettable Tale...</span></ul>
+<ul><span class="1 quest">The Forsaken Tower</span></ul>
+<ul><span class="2 quest">The Fremennik Exiles</span></ul>
+<ul><span class="1 quest">The Fremennik Isles</span></ul>
+<ul><span class="3 leaf ready quest">The Fremennik Trials</span></ul>
+<ul><span class="2 quest">Garden of Tranquility</span></ul>
+<ul><span class="1 leaf ready quest">Gertrude's Cat</span></ul>
+<ul><span class="2 quest">Ghosts Ahoy</span></ul>
+<ul><span class="2 leaf ready quest">The Giant Dwarf</span></ul>
+<ul><span class="1 leaf ready quest">The Golem</span></ul>
+<ul><span class="5 leaf ready quest">The Grand Tree</span></ul>
+<ul><span class="2 quest">The Great Brain Robbery</span></ul>
+<ul><span class="1 quest">Grim Tales</span></ul>
+<ul><span class="1 leaf ready quest">The Hand in the Sand</span></ul>
+<ul><span class="2 quest">Haunted Mine</span></ul>
+<ul><span class="1 leaf ready quest">Hazeel Cult</span></ul>
+<ul><span class="1 quest">Heroes' Quest</span></ul>
+<ul><span class="2 quest">Holy Grail</span></ul>
+<ul><span class="2 leaf ready quest">Horror from the deep</span></ul>
+<ul><span class="2 quest">Icthlarin's Little Helper</span></ul>
+<ul><span class="2 quest">In Aid of the Myreque</span></ul>
+<ul><span class="2 quest">In Search of the Myreque</span></ul>
+<ul><span class="1 quest">Jungle Potion</span></ul>
+<ul><span class="1 quest">King's Ransom</span></ul>
+<ul><span class="4 quest">Legends' Quest</span></ul>
+<ul><span class="3 leaf ready quest">Lost City</span></ul>
+<ul><span class="1 quest">The Lost Tribe</span></ul>
+<ul><span class="2 quest">Lunar Diplomacy</span></ul>
+<ul><span class="2 quest">Making Friends with My Arm</span></ul>
+<ul><span class="3 quest">Making History</span></ul>
+<ul><span class="6 leaf ready quest">Merlin's Crystal</span></ul>
+<ul><span class="1 leaf ready quest">Monk's Friend</span></ul>
+<ul><span class="3 quest">Monkey Madness I</span></ul>
+<ul><span class="4 quest">Monkey Madness II</span></ul>
+<ul><span class="2 leaf ready quest">Mountain Daughter</span></ul>
+<ul><span class="2 quest">Mourning's End Part I</span></ul>
+<ul><span class="2 quest">Mourning's End Part II</span></ul>
+<ul><span class="3 leaf ready quest">Murder Mystery</span></ul>
+<ul><span class="1 quest">My Arm's Big Adventure</span></ul>
+<ul><span class="2 quest">Nature Spirit</span></ul>
+<ul><span class="2 leaf ready quest">Observatory Quest</span></ul>
+<ul><span class="1 quest">Olaf's Quest</span></ul>
+<ul><span class="2 quest">One Small Favor</span></ul>
+<ul><span class="1 leaf ready quest">Plague City</span></ul>
+<ul><span class="1 leaf ready quest">Priest in Peril</span></ul>
+<ul><span class="1 quest">The Queen of Thieves</span></ul>
+<ul><span class="1 leaf ready quest">Rag and Bone Man</span></ul>
+<ul><span class="1 quest">Rag and Bone Man II</span></ul>
+<ul><span class="2 quest">Ratcatchers</span></ul>
+<ul><span class="1 quest">Recipe for Disaster</span></ul>
+
+<ul><span class="1 collapsed quest">Another Cook's Quest</span></ul>
+<ul><span class="1 collapsed quest">Freeing the Mountain Dwarf</span></ul>
+<ul><span class="1 collapsed quest">Freeing the Goblin Generals</span></ul>
+<ul><span class="1 collapsed quest">Freeing Pirate Pete</span></ul>
+<ul><span class="1 collapsed quest">Freeing the Lumbridge Guide</span></ul>
+<ul><span class="1 collapsed quest">Freeing Evil Dave</span></ul>
+<ul><span class="1 collapsed quest">Freeing King Awowogei</span></ul>
+<ul><span class="1 collapsed quest">Freeing Sir Amik Varze</span></ul>
+<ul><span class="1 collapsed quest">Freeing Skrach Uglogwee</span></ul>
+
+<ul><span class="1 quest">Recruitment Drive</span></ul>
+<ul><span class="3 quest">Regicide</span></ul>
+<ul><span class="1 quest">Roving Elves</span></ul>
+<ul><span class="1 quest">Royal Trouble</span></ul>
+<ul><span class="2 quest">Rum Deal</span></ul>
+<ul><span class="1 leaf ready quest">Scorpion Catcher</span></ul>
+<ul><span class="1 leaf ready quest">Sea Slug</span></ul>
+<ul><span class="3 quest">Shades of Morton</span></ul>
+<ul><span class="1 quest">Shadow of the Storm</span></ul>
+<ul><span class="4 leaf ready quest">Sheep Herder</span></ul>
+<ul><span class="2 quest">Shilo Village</span></ul>
+<ul><span class="1 quest">The Slug Menace</span></ul>
+<ul><span class="4 quest">Song of the Elves</span></ul>
+<ul><span class="1 leaf ready quest">A Soul's Bane</span></ul>
+<ul><span class="2 leaf ready quest">Spirits of the Elid</span></ul>
+<ul><span class="2 quest">Swan Song</span></ul>
+<ul><span class="2 quest">Tai Bwo Wannai Trio</span></ul>
+<ul><span class="2 quest">A Tail of Two Cats</span></ul>
+<ul><span class="1 quest">Tale of the Righteous</span></ul>
+<ul><span class="1 quest">A Taste of Hope</span></ul>
+<ul><span class="1 leaf ready quest">Tears of Guthix</span></ul>
+<ul><span class="1 leaf ready quest">Temple of Ikov</span></ul>
+<ul><span class="1 quest">Throne of Miscellania</span></ul>
+<ul><span class="2 leaf ready quest">The Tourist Trap</span></ul>
+<ul><span class="2 leaf ready quest">Tower of Life</span></ul>
+<ul><span class="2 leaf ready quest">Tree Gnome Village</span></ul>
+<ul><span class="1 leaf ready quest">Tribal Totem</span></ul>
+<ul><span class="2 quest">Troll Romance</span></ul>
+<ul><span class="1 quest">Troll Stronghold</span></ul>
+<ul><span class="5 quest">Underground Pass</span></ul>
+<ul><span class="1 quest">Wanted!</span></ul>
+<ul><span class="4 leaf ready quest">Watchtower</span></ul>
+<ul><span class="1 leaf ready quest">Waterfall Quest</span></ul>
+<ul><span class="1 quest">What Lies Below</span></ul>
+<ul><span class="4 leaf ready quest">Witch's House</span></ul>
+<ul><span class="1 quest">Zogre Flesh Eaters</span></ul>
+
+<br>
+<br>
+
+</div>
+
+
+<section class="content">
+
+<h2 style="text-align:center">OSRS Quest Tracker</h2>
+<h2 style="text-align:center"><span>Quest Points: </span><span id="Quest Points" onclick="getQuestPoints()">0</span><span>/275</span>
+</h2>
+
+
+<body>
+
+
+<h4></h4>
+
+<p style="text-align:center"><span class="label completed">Completed</span>
+	<span class="label completable">Started</span>
+	<span class="label uncompletable">Locked</span>
+</p>
+
+
+<!--
+<p style="text-align:center">
+</p>
+-->
+
+<!--
+<button class="" onclick="checkAll()">Check All</button>
+-->
+<!--
+<label class="switch">
+<input type="checkbox">
+<span class="slider round"></span>
+</label>
+-->
+<!--
+<button class="a" id="Collapse" onclick="toggleCollapse()">Toggle Collapsible Mode (Off)</button>
+-->
+
+<!--
+<button type="button" class="" onclick="uncheckAll()">Uncheck All</button>-->
+
+
+
+<!--
+<a href="http://www.google.com">Google</a>
+-->
+
+<!--144+ quests-->
+<br><br>
+
+<button class="" onclick="checkAll()">Check All</button>
+<button type="button" class="" onclick="uncheckAll()">Uncheck All</button>
+
+
+
+<!--done-->
+<ul id="myUL" class="stop" style="">
+
+	<li><span class="1 caret chip">The Slug Menace</span>
+
+		<ul class="nested">
+
+			<li><span class="1 caret chip">Wanted!</span>
+
+			<ul class="nested">
+			
+				<li><span class="1 caret chip">Recruitment Drive</span>
+			
+				<ul class="nested">
+			
+					<li><span class="3 leaf ready caret chip">Black Knights' Fortress</span></li>
+					<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+			
+				</ul>
+			
+				</li>
+				<li><span class="1 caret chip">The Lost Tribe</span>
+				
+				<ul class="nested">
+				
+					<li><span class="2 leaf ready caret chip">Rune Mysteries</span></li>
+					<li><span class="5 leaf ready caret chip">Goblin Diplomacy</span></li>
+				
+				</ul>
+				
+				</li>
+				<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
+			
+			</ul>
+
+			</li>
+			<li><span class="1 leaf ready caret chip">Sea Slug</span></li>
+
+		</ul>
+
+	</li>
+
+</ul>
+
+<!--done-->
+<ul id="myUL" class="stop" style="">
+
+	<li><span class="2 caret chip">Making Friends with My Arm</span>
+
+		<ul class="nested">
+		
+			<li><span class="1 caret chip">My Arm's Big Adventure</span>
+		
+			<ul class="nested">
+		
+				<li><span class="1 caret chip">Eadgar's Ruse</span>
+				
+				<ul class="nested">
+				
+					<li><span class="1 caret chip">Troll Stronghold</span>
+					
+					<ul class="nested">
+						<li><span class="1 leaf ready caret chip">Death Plateau</span></li>
+					</ul>
+					
+					</li>
+					<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+				
+				</ul>
+				
+				</li>
+				<li><span class="1 leaf ready caret chip">The Feud</span></li>
+				<li><span class="1 caret chip">Jungle Potion</span>
+				
+				<ul class="nested">
+					<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+				</ul>
+				
+				</li>
+		
+			</ul>
+		
+			</li>
+			<li><span class="2 caret chip">Swan Song</span>
+			
+			<ul class="nested">
+			
+				<li><span class="2 caret chip">One Small Favour</span>
+				
+				<ul class="nested">
+				
+					<li><span class="1 leaf ready caret chip">Rune Mysteries</span></li>
+					<li><span class="2 leaf caret chip">Shilo Village</span>
+					
+					<ul class="nested">
+					
+						<li><span class="1 caret chip">Jungle Potion</span>
+						
+						<ul class="nested">
+							<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+						</ul>
+						
+						</li>
+					
+					</ul>
+					
+					</li>
+					
+				</ul>
+				
+				</li>
+				<li><span class="2 caret chip">Garden of Tranquility</span>
+				
+				<ul class="nested">
+				
+					<li><span class="2 caret chip">Creature of Fenkenstrain</span>
+					
+					<ul class="nested">
+					
+						<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
+						<li><span class="1 leaf ready caret chip">Restless Ghost</span></li>
+					
+					</ul>
+					
+					</li>
+				
+				</ul>
+				
+				</li>
+			
+			</ul>
+			
+			</li>
+			<li><span class="1 leaf ready caret chip">Cold War</span></li>
+			<li><span class="5 leaf ready caret chip">Romeo &amp; Juliet</span></li>
+		
+		</ul>
+
+	</li>
+
+</ul>
+
+
+<!--done-->
+<ul id="myUL" class="stop">
+
+	<li><span class="1 caret chip">A Taste of Hope</span>
+
+		<ul class="nested">
+		
+			<li><span class="2 caret chip">Darkness of Hallowvale</span>
+			
+			<ul class="nested">
+			
+				<li><span class="2 caret chip">In Aid of the Myreque</span>
+				
+				<ul class="nested">
+					
+					<li><span class="2 caret chip">In Search of the Myreque</span>
+					
+					<ul class="nested">
+					
+						<li><span class="2 caret chip">Nature Spirit</span>
+				
+						<ul class="nested">
+							
+							<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
+							<li><span class="1 leaf ready caret chip">Restless Ghost</span></li>
+							
+						</ul>
+
+						</li>
+					
+					</ul>
+						
+					</li>
+						
+				</ul>
+				
+				</li>
+					
+			</ul>
+			
+			</li>
+			
+		</ul>
+			
+	</li>
+
+</ul>
+
+<!--done-->
+<ul id="myUL" class="stop">
+
+	<li><span class="5 caret chip"><img src="5.png" alt="Points" width="96" height="96">Dragon Slayer II</span>
+
+		<ul class="nested">
+
+			<li><span class="4 caret chip">Legends' Quest</span>
+
+			<ul class="nested">
+
+				<li><span class="1 leaf ready caret chip">Family Crest</span></li>
+				<li><span class="1 caret chip">Heroes' Quest</span>
+
+				<ul class="nested">
+
+					<li><span class="1 leaf ready caret chip">Shield of Arrav</span></li>
+					<li><span class="3 leaf ready caret chip">Lost City</span></li>
+					<li><span class="6 leaf ready caret chip">Merlin's Crystal</span></li>
+					<li><span class="2 leaf ready caret chip">Dragon Slayer</span></li>
+					<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+
+				</ul>
+
+				</li>
+				<li><span class="2 caret chip">Shilo Village</span>
+
+				<ul class="nested">
+
+					<li><span class="1 caret chip">Jungle Potion</span>
+
+					<ul class="nested">
+						<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+					</ul>
+
+					</li>
+
+				</ul>
+
+				</li>
+				<li><span class="5 caret chip">Underground Pass</span>
+
+				<ul class="nested">
+
+					<li><span class="3 caret chip">Biohazard</span>
+
+					<ul class="nested">
+						<li><span class="1 leaf ready caret chip">Plague City</span></li>
+					</ul>
+					
+					</li>
+
+				</ul>
+				
+				</li>
+
+				<li><span class="1 leaf ready caret chip">Waterfall Quest</span></li>
+
+			</ul>
+			</li>
+			<li><span class="2 caret chip">Dream Mentor</span>
+
+			<ul class="nested">
+
+				<li><span class="2 caret chip">Lunar Diplomacy</span>
+
+				<ul class="nested">
+
+					<li><span class="3 leaf ready caret chip">The Fremennik Trials</span></li>
+					<li><span class="3 leaf ready caret chip">Lost City</span></li>
+					<li><span class="1 leaf ready caret chip">Rune Mysteries</span></li>
+					<li><span class="2 caret chip">Shilo Village</span>
+
+					<ul class="nested">
+
+						<li><span class="1 caret chip">Jungle Potion</span>
+
+						<ul class="nested">
+							<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+						</ul>
+
+						</li>
+
+					</ul>
+
+					</li>
+
+				</ul>
+
+				</li>
+				<li><span class="1 caret chip">Eadgar's Ruse</span>
+
+				<ul class="nested">
+				
+					<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+					<li><span class="1 caret chip">Troll Stronghold</span>
+
+					<ul class="nested">
+						<li><span class="1 leaf ready caret chip">Death Plateau</span></li>
+					</ul>
+
+					</li>
+
+
+				</ul>
+				
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="2 caret chip">A Tail of Two Cats</span>
+
+			<ul class="nested">
+
+				<li><span class="2 caret chip">Icthlarin's Little Helper</span>
+
+				<ul class="nested">
+					<li><span class="1 leaf ready caret chip">Gertrude's Cat</span></li>
+				</ul>
+
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="1 caret chip">Animal Magnetism</span>
+
+			<ul class="nested">
+
+				<li><span class="4 leaf ready caret chip">Ernest the Chicken</span></li>
+				<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
+				<li><span class="1 leaf ready caret chip">The Restless Ghost</span></li>
+
+			</ul>
+
+			</li>
+			<li><span class="2 caret chip">Ghosts Ahoy</span>
+
+			<ul class="nested">
+
+				<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
+				<li><span class="1 leaf ready caret chip">Restless Ghost</span></li>
+
+			</ul>
+
+			</li>
+			<li><span class="1 caret chip">Bone Voyage</span>
+
+			<ul class="nested">
+
+				<li><span class="2 caret chip">The Dig Site</span>
+
+				<ul class="nested">
+					<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+				</ul>
+				
+				</li>
+
+
+			</ul>
+
+			</li>
+			<li><span class="1 leaf ready caret chip">Client of Kourend</span></li>
+
+
+		</ul>
+		
+	</li>
+
+</ul>
+
+<!--done-->
+<ul id="myUL" class="stop">
+
+	<li><span class="4 caret chip">Song of the Elves</span>
+
+		<ul class="nested">
+
+			<li><span class="2 caret chip">Mourning's End Part II</span>
+
+			<ul class="nested">
+
+				<li><span class="2 caret chip">Mourning's End Part I</span>
+
+				<ul class="nested">
+
+					<li><span class="2 leaf ready caret chip">Big Chompy Bird Hunting</span></li>
+					<li><span class="4 leaf ready caret chip">Sheep Herder</span></li>
+					<li><span class="1 leaf caret chip">Roving Elves</span>
+
+					<ul class="nested">
+
+						<li><span class="1 leaf ready caret chip">Waterfall Quest</span></li>
+						<li><span class="3 leaf caret chip">Regicide</span>
+
+						<ul class="nested">
+
+							<li><span class="5 caret chip">Underground Pass</span>
+
+							<ul class="nested">
+
+								<li><span class="3 caret chip">Biohazard</span>
+
+								<ul class="nested">
+									<li><span class="1 leaf ready caret chip">Plague City</span></li>
+								</ul>
+
+								</li>
+
+							</ul>
+
+							</li>
+
+						</ul>
+
+						</li>
+
+					</ul>
+
+					</li>
+
+				</ul>
+
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="3 caret chip">Making History</span>
+
+			<ul class="nested">
+
+				<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
+				<li><span class="1 leaf ready caret chip">Restless Ghost</span></li>
+
+			</ul>
+
+			</li>
+
+		</ul>
+		
+	</li>
+
+</ul>
+
+
+<!--done-->
+<ul id="myUL" class="stop">
+
+	<li><span class="1 caret chip">Recipe for Disaster</span>
+
+		<ul class="nested">
+
+			<li><span class="3 caret chip">Desert Treasure</span>
+
+			<ul class="nested">
+
+				<li><span class="2 caret chip">The Dig Site</span>
+
+				<ul class="nested">
+					<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+				</ul>
+
+				</li>
+				<li><span class="1 leaf ready caret chip">Temple of Ikov</span></li>
+				<li><span class="2 leaf ready caret chip">The Tourist Trap</span></li>
+				<li><span class="1 caret chip">Troll Stronghold</span>
+
+				<ul class="nested">
+					<li><span class="1 leaf ready caret chip">Death Plateau</span></li>
+				</ul>
+				
+				</li>
+				<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
+				<li><span class="1 leaf ready caret chip">Waterfall Quest</span></li>
+				<li><span class="2 leaf ready caret chip">Horror from the Deep</span></li>
+
+			</ul>
+
+			</li>
+			<li><span class="1 caret chip">Freeing the Mountain Dwarf</span>
+
+			<ul class="nested">
+
+				<li><span class="1 leaf ready caret chip">Fishing Contest</span></li>
+				<li><span class="1 caret chip">Another Cook's Quest</span>
+
+				<ul class="nested">
+					<li><span class="1 leaf ready caret chip">Cook's Assistant</span></li>
+				</ul>
+
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="1 caret chip">Freeing the Goblin Generals</span>
+
+			<ul class="nested">
+
+				<li><span class="5 leaf ready caret chip">Goblin Diplomacy</span></li>
+				<li><span class="1 caret chip">Another Cook's Quest</span>
+
+				<ul class="nested">
+					<li><span class="1 leaf ready caret chip">Cook's Assistant</span></li>
+				</ul>
+
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="1 caret chip">Freeing Pirate Pete</span>
+
+			<ul class="nested">
+
+				<li><span class="1 caret chip">Another Cook's Quest</span>
+
+				<ul class="nested">
+					<li><span class="1 leaf ready caret chip">Cook's Assistant</span></li>
+				</ul>
+
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="1 caret chip">Freeing the Lumbridge Guide</span>
+
+			<ul class="nested">
+
+				<li><span class="2 leaf ready caret chip">Big Chompy Bird Hunting</span></li>
+				<li><span class="3 caret chip">Biohazard</span>
+				
+				<ul class="nested">
+					<li><span class="1 leaf ready caret chip">Plague City</span></li>
+				</ul>
+
+				</li>
+				<li><span class="3 leaf ready caret chip">Demon Slayer</span></li>
+				<li><span class="3 leaf ready caret chip">Murder Mystery</span></li>
+				<li><span class="2 caret chip">Nature Spirit</span>
+
+				<ul class="nested">
+
+					<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
+					<li><span class="1 leaf ready caret chip">Restless Ghost</span></li>
+
+				</ul>
+
+				</li>
+				<li><span class="4 leaf ready caret chip">Witch's House</span></li>
+				<li><span class="1 caret chip">Another Cook's Quest</span>
+
+				<ul class="nested">
+					<li><span class="1 leaf ready caret chip">Cook's Assistant</span></li>
+				</ul>
+
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="1 caret chip">Freeing Evil Dave</span>
+
+			<ul class="nested">
+
+				<li><span class="1 leaf ready caret chip">Gertrude's Cat</span></li>
+				<li><span class="1 caret chip">Shadow of the Storm</span>
+
+				<ul class="nested">
+
+					<li><span class="3 leaf ready caret chip">Demon Slayer</span></li>
+					<li><span class="1 leaf ready caret chip">The Golem</span></li>
+
+				</ul>
+
+				</li>
+
+				<li><span class="1 caret chip">Another Cook's Quest</span>
+
+				<ul class="nested">
+					<li><span class="1 leaf ready caret chip">Cook's Assistant</span></li>
+				</ul>
+
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="1 caret chip">Freeing King Awowogei</span>
+
+			<ul class="nested">
+
+					<li><span class="3 caret chip">Monkey Madness I</span>
+
+					<ul class="nested">
+
+						<li><span class="5 leaf ready caret chip">The Grand Tree</span></li>
+						<li><span class="2 leaf ready caret chip">Tree Gnome Village</span></li>
+
+					</ul>
+
+					</li>
+
+					<li><span class="1 caret chip">Another Cook's Quest</span>
+
+					<ul class="nested">
+						<li><span class="1 leaf ready caret chip">Cook's Assistant</span></li>
+					</ul>
+
+					</li>
+
+			</ul>
+
+		</li>
+		<li><span class="1 caret chip">Freeing Sir Amik Varze</span>
+
+		<ul class="nested">
+
+			<li><span class="1 leaf ready caret chip">Family Crest</span></li>
+			<li><span class="1 caret chip">Heroes' Quest</span>
+
+			<ul class="nested">
+
+				<li><span class="1 leaf ready caret chip">Shield of Arrav</span></li>
+				<li><span class="3 leaf ready caret chip">Lost City</span></li>
+				<li><span class="6 leaf ready caret chip">Merlin's Crystal</span></li>
+				<li><span class="2 leaf ready caret chip">Dragon Slayer</span></li>
+				<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+
+			</ul>
+
+			</li>
+			<li><span class="2 caret chip">Shilo Village</span>
+
+			<ul class="nested">
+
+				<li><span class="1 caret chip">Jungle Potion</span>
+
+				<ul class="nested">
+					<li><span class="4 leaf ready caret chip">Druidic Ritual</span></li>
+				</ul>
+
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="5 caret chip">Underground Pass</span>
+
+			<ul class="nested">
+
+				<li><span class="3 caret chip">Biohazard</span>
+
+				<ul class="nested">
+					<li><span class="1 leaf ready caret chip">Plague City</span></li>
+				</ul>
+
+				</li>
+
+			</ul>
+
+			</li>
+			<li><span class="1 leaf ready caret chip">Waterfall Quest</span></li>
+			<li><span class="1 caret chip">Another Cook's Quest</span>
+
+			<ul class="nested">
+				<li><span class="1 leaf ready caret chip">Cook's Assistant</span></li>
+			</ul>
+
+			</li>
+
+		</ul>
+
+		</li>
+		<li><span class="1 caret chip">Freeing Skrach Uglogwee</span>
+
+		<ul class="nested">
+
+			<li><span class="2 leaf ready caret chip">Big Chompy Bird Hunting</span></li>
+			<li><span class="1 caret chip">Another Cook's Quest</span>
+
+			<ul class="nested">
+				<li><span class="1 leaf ready caret chip">Cook's Assistant</span></li>
+			</ul>
+
+			</li>
+		</ul>
+
+		</li>
+
+	</ul>
+
+	</li>
+
+</ul>
+
+
+
+</section>
+
+
+<script>
+
+
+//var toggler = document.getElementsByClassName("chip");
+var toggler = document.querySelectorAll(".chip, .quest");
+
+var collapsible = false;
+
+for (var i = 0; i < toggler.length; i++) {
+	
+	toggler[i].addEventListener("click", function() {
+	
+	var nodes = getAllNodes(this);
+	
+	if (this.classList.contains("ready") && isCompletable(this)){
+		
+		for (var j = 0; j < nodes.length; j++){
+			
+			nodes[j].classList.add("active");
+			nodes[j].classList.add("caret-down");
+			nodes[j].classList.remove("ready");
+			
+			if (nodes[j].classList.contains("chip") && isUnlocked(nodes[j])){	
+				setParents(nodes[j]);
+			}
+
+		}setInList(this, "active");
+
+	}else if (this.classList.contains("active")){
+		
+		for (var j = 0; j < nodes.length; j++){
+
+			nodes[j].classList.remove("active");
+			nodes[j].classList.remove("caret-down");
+			nodes[j].classList.add("ready");
+			
+			unsetParents(nodes[j]);
+
+		}unsetInList(this, "active");
+		
+		nodes = document.querySelectorAll(".active");
+		var list = [];
+		for (var j = nodes.length - 1; j >= 0; j--){
+			
+			if (["Black Knights' Fortress", "Enlightened Journey", "Dragon Slayer", "Tears of Guthix", "Heroes' Quest", "Swan Song", "Legends' Quest", "Recipe for Disaster", "Dragon Slayer II"].indexOf(nodes[j].textContent) > -1){
+				
+				list.push(nodes[j]);
+
+			}
+		}
+		
+		for (var j = list.length - 1; j >= 0; j--){
+		
+			if (!isCompletable(list[j])){
+				
+				list[j].classList.remove("active");
+				list[j].classList.add("ready");
+				
+				unsetParents(list[j]);
+				
+				list.splice(j, 1);
+				
+				j = list.length;
+				
+			}
+		
+		}
+
+	}
+	
+	getQuestPoints();
+
+	});
+}
+
+
+function getAllNodes(node){
+
+	var list = document.querySelectorAll(".chip");
+	var nodes = [];
+	
+	for (var i = list.length - 1; i >= 0; i--){
+
+		if (list[i].innerHTML == node.innerHTML){
+			nodes.push(list[i]);
+		}
+
+	}
+	return nodes;
+
+}
+
+function setParents(node){
+
+	if (!node.parentElement.parentElement.classList.contains("stop")) {
+
+		node.parentElement.parentElement.parentElement.firstElementChild.classList.add("ready");
+		setInList(node.parentElement.parentElement.parentElement.firstElementChild, "ready");
+		
+		if (collapsible){
+			node.parentElement.parentElement.classList.add("collapsed");		
+		}
+
+	}
+
+}
+
+function unsetParents(node){
+
+	var parent = node.parentElement.parentElement.parentElement.firstElementChild;
+	
+	while (parent != null && (parent.classList.contains("active") || parent.classList.contains("ready"))){
+		
+		parent.classList.remove("active");
+		parent.classList.remove("ready");
+		parent.classList.remove("caret-down");
+
+		unsetInList(parent, "active ready");
+
+		parent = parent.parentElement.parentElement.parentElement.firstElementChild;
+
+	}
+
+}
+
+function setInList(node, status){
+
+	var list = document.getElementById("questbar").querySelectorAll(".quest");
+	
+	for (var i = 0; i < list.length; i++){
+	
+		if (list[i].textContent == node.textContent){
+			list[i].classList.remove("ready", "active");
+			list[i].classList.add(status);
+			return;
+		}
+		
+	}
+	
+}
+
+function unsetInList(node, status){
+	
+	var list = document.getElementById("questbar").querySelectorAll(".quest");
+	
+	for (var i = 0; i < list.length; i++){
+	
+		if (list[i].textContent == node.textContent){
+		
+			if (status == "active"){
+				list[i].classList.remove("active");
+				list[i].classList.add("ready");
+			}else if (status == "active ready"){
+				list[i].classList.remove("active", "ready");
+			}
+			break;
+		}
+		
+	}
+
+}
+
+function isUnlocked(node) {
+
+	var current = node.parentElement.parentElement;
+	var length = current.children.length;
+
+	for (var i = 0; i < length; i++){
+	
+		if (!current.children[i].firstElementChild.classList.contains("active")){
+			return false;
+		}
+
+	}
+
+	return true;
+
+}
+
+function checkAll(){
+
+	var list = document.querySelectorAll(".chip");
+	for (var i = list.length - 1; i >= 0; i--){
+
+		list[i].classList.add("active");
+		list[i].classList.add("caret-down");
+		list[i].classList.remove("ready");
+
+	}
+	
+	list = document.getElementById("questbar").querySelectorAll(".quest");
+	
+	for (var i = 0; i < list.length; i++){
+	
+		list[i].classList.add("active");
+		list[i].classList.remove("ready");
+		
+	}
+	
+	getQuestPoints();
+
+}
+
+function uncheckAll(){
+
+	var list = document.querySelectorAll(".active, .ready");
+	for (var i = list.length - 1; i >= 0; i--){
+		
+		list[i].classList.remove("active");
+		list[i].classList.remove("caret-down");
+		list[i].classList.remove("ready");
+
+		if (list[i].classList.contains("leaf")){
+			list[i].classList.add("ready");
+		}
+
+	}
+	
+	getQuestPoints();
+
+}
+
+
+function isCompletable(node){
+
+	var b = true;
+	var points = getQuestPoints();
+	
+	switch (node.innerHTML){
+	
+		case "Black Knights' Fortress":
+			if (points < 12){
+				window.alert("You need at least 12 quest points to complete this quest");
+				b = false;
+			} break;
+		case "Enlightened Journey":
+			if (points < 20){
+				window.alert("You need at least 20 quest points to complete this quest");
+				b = false;
+			} break;
+		case "Dragon Slayer":
+			if (points < 32){
+				window.alert("You need at least 32 quest points to complete this quest");
+				b = false;
+			} break;
+		case "Tears of Guthix":
+			if (points < 43){
+				window.alert("You need at least 43 quest points to complete this quest");
+				b = false;
+			} break;
+		case "Heroes' Quest":
+			if (points < 55){
+				window.alert("You need at least 55 quest points to complete this quest");
+				b = false;
+			} break;
+		case "Swan Song":
+			if (points < 100){
+				window.alert("You need at least 100 quest points to complete this quest");
+				b = false;
+			} break;
+		case "Legends' Quest":
+			if (points < 107){
+				window.alert("You need at least 107 quest points to complete this quest");
+				b = false;
+			} break;
+		case "Freeing Sir Amik Varze":
+			if (points < 107){
+				window.alert("You need at least 107 quest points to complete this quest");
+				b = false;
+			} break;
+		case "Recipe for Disaster":
+			if (points < 175){
+				window.alert("You need at least 175 quest points to complete this quest");
+				b = false;
+			} break;
+		case "Dragon Slayer II":
+			if (points < 200){
+				window.alert("You need at least 200 quest points to complete this quest");
+				b = false;
+			}
+			
+	}
+	
+	return b;
+	
+}
+
+
+function getQuestPoints(){
+
+	var points = 0;
+	var list = document.getElementById("questbar").querySelectorAll(".active");
+	var names = [];
+	
+	for (var i = 0; i < list.length; i++){
+
+		points += parseInt(list[i].classList[0]);
+
+	}
+	
+	document.getElementById("Quest Points").innerHTML = points;
+	
+	return points;
+	
+}
+
+function toggleCollapse(){
+
+	var checkBox = document.getElementById("Collapse");
+	checkBox.classList.toggle("success");
+
+	if (checkBox.checked == true){
+		collapsible = true;
+
+		var list = document.querySelectorAll(".chip");
+
+		for (var i = 0; i < list.length; i++){
+
+			if (isUnlocked(list[i])){
+
+				list[i].parentElement.parentElement.classList.add("collapsed");
+
+			}
+
+		}
+
+	}else {
+
+		collapsible = false;
+		var list = document.querySelectorAll(".nested");
+
+		for (var i = 0; i < list.length; i++){
+
+			list[i].classList.remove("collapsed");
+
+		}
+
+	}
+
+}
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
