@@ -200,7 +200,7 @@ transform: translateX(26px);
 	position: fixed;
 	z-index: 1;
 	top: 0;
-	background-color: #342C21;		/*#CFC099*/	/*#DACBA4*/
+	background-color: #342C21;
 	overflow-x: hidden;
 	padding-top: 20px;
 	
@@ -1947,33 +1947,19 @@ $(document).ready(function(){
 			$(nodes[i]).parent("li").children("ul").find("span").removeClass("ready");
 			$(nodes[i]).parent("li").children("ul").find("span").addClass("active caret-down");
 			
-			//jQuery.fn.reverse = [].reverse;
-			//var children = $(nodes[i]).parent("li").children("ul").find("span").get().reverse();
-			
 			var children = $(nodes[i]).parent("li").children("ul").find("span");
 			
 			for (var j = children.length - 1; j >= 0; j--){
-				//alert(children[j].innerHTML);
+				
 				setInList(children[j], "active");
 				
 				$(getAllNodes(children[j])).addClass("active caret-down");
 				$(getAllNodes(children[j])).removeClass("ready");
 				
 				var duplicates = (getAllNodes(children[j]));
-				//alert(duplicates);
-				/*$(duplicates).each(function (){
-				
-					if (isUnlocked($(this))){
-						setParents($(this));
-						//setParents($(duplicates[k]));
-						//setParents($(getAllNodes(children[j])));
-					}
-				
-				});*/
-				
 				
 				for (var k = duplicates.length - 1; k >= 0; k--){
-					//alert(duplicates[k].innerHTML);
+					
 					if (isUnlocked(duplicates[k])){
 						setParents(duplicates[k]);
 					}
@@ -2001,8 +1987,8 @@ $(document).ready(function(){
 
 function getAllNodes(node){
 
-	var list = document.querySelectorAll(".chip");
-	//var list = $(".chip");
+	//var list = document.querySelectorAll(".chip");
+	var list = $(".chip");
 	
 	var nodes = [];
 	
@@ -2020,13 +2006,11 @@ function getAllNodes(node){
 function setParents(node){
 
 	if ($(node).parent("li").parent("ul").hasClass("stop")){
-		//alert($(node).parent("li").parent("ul").html());
+		
 		return false;
 	}
 	
 	var parent = $(node).parent("li").parent("ul").parent("li").find("span:first");//.addClass("ready");
-	//alert(parent[0].innerHTML);
-	//parent[0].classList.add("ready");
 	
 	if (!parent[0].classList.contains("active")){
 		parent[0].classList.add("ready");
@@ -2052,8 +2036,8 @@ function unsetParents(node){
 
 function setInList(node, status){
 
-	var list = document.getElementById("questbar").querySelectorAll(".quest");
-	//var list = $(".quest");
+	//var list = document.getElementById("questbar").querySelectorAll(".quest");
+	var list = $(".quest");
 	
 	for (var i = 0; i < list.length; i++){
 	
@@ -2110,8 +2094,8 @@ function isUnlocked(node) {
 
 function checkAll(){
 
-	var list = document.querySelectorAll(".chip");
-	//var list = $(".chip");
+	//var list = document.querySelectorAll(".chip");
+	var list = $(".chip");
 	
 	for (var i = list.length - 1; i >= 0; i--){
 
@@ -2121,8 +2105,8 @@ function checkAll(){
 
 	}
 	
-	list = document.getElementById("questbar").querySelectorAll(".quest");
-	//list = $(".quest");
+	//list = document.getElementById("questbar").querySelectorAll(".quest");
+	list = $(".quest");
 	
 	for (var i = 0; i < list.length; i++){
 	
@@ -2137,8 +2121,8 @@ function checkAll(){
 
 function uncheckAll(){
 
-	var list = document.querySelectorAll(".active, .ready");
-	//var list = $(".active, .ready");
+	//var list = document.querySelectorAll(".active, .ready");
+	var list = $(".active, .ready");
 	
 	for (var i = list.length - 1; i >= 0; i--){
 		
@@ -2230,8 +2214,8 @@ function isCompletable(node){
 function getQuestPoints(){
 
 	var points = 0;
-	var list = document.getElementById("questbar").querySelectorAll(".active");
-	//var list = $("#questbar .active");
+	//var list = document.getElementById("questbar").querySelectorAll(".active");
+	var list = $("#questbar .active");
 	
 	var names = [];
 	
@@ -2242,7 +2226,6 @@ function getQuestPoints(){
 	}
 	
 	document.getElementById("Quest Points").innerHTML = points;
-	//$("#Quest\\ Points").text(points);
 	
 	return points;
 	
