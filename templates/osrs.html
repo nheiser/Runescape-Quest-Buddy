@@ -18,6 +18,42 @@ body {
 	background-color: #e2dbc8;
 }
 
+.sidenav {
+	height: 100%;
+	width: 25%;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	background-color: #342C21;
+	overflow-x: hidden;
+	padding-top: 20px;
+	
+}
+.sidenav.left {
+	left: 0;
+	color: yellow;
+	text-align: center;
+}
+.sidenav.right {
+	right: 0;
+	text-align: left;
+	line-height: 0.4;
+}
+.sidenav > ul > span {
+	color: red;
+}
+.sidenav > ul > span.ready {
+	color: yellow;
+}
+.sidenav > ul > span.active {
+	color: green;
+}
+.sidenav > ul > span:hover {
+	color: white;
+	cursor: pointer;
+}
+
+
 .content {
 	background:url('https://www.runescape.com/img/rsp777/scroll/backdrop_745.gif') repeat-y center top;
 	margin-right: 25%;
@@ -25,8 +61,7 @@ body {
 	padding:50px 100px;
 	position:relative;
 	max-width: 500px;
-	
-	
+		
 }
 .content:before,
 .content:after {
@@ -44,7 +79,6 @@ body {
 	bottom:-11px;
 	top: auto;
 }
-
 
 .chip {
 	display: inline-block;
@@ -108,7 +142,6 @@ cursor: pointer;
 -ms-user-select: none; /* IE 10+ */
 user-select: none;
 }
-
 
 .caret::before {
 	content: "\2610";
@@ -193,51 +226,10 @@ transform: translateX(26px);
 	border-left: 1px dotted black;
 }
 
-
-.sidenav {
-	height: 100%;
-	width: 25%;
-	position: fixed;
-	z-index: 1;
-	top: 0;
-	background-color: #342C21;
-	overflow-x: hidden;
-	padding-top: 20px;
-	
-}
-.sidenav.left {
-	left: 0;
-	color: yellow;
-	text-align: center;
-}
-.sidenav.right {
-	right: 0;
-	text-align: left;
-	line-height: 0.4;
-}
-.sidenav > ul > span {
-	color: red;
-}
-.sidenav > ul > span.ready {
-	color: yellow;
-}
-.sidenav > ul > span.active {
-	color: green;
-}
-.sidenav > ul > span:hover {
-	color: white;
-	cursor: pointer;
-}
 .hidden {
 	display: none;
 	
 }
-.stop {
-	/*display: none;*/
-}
-.stop.show {
-	display: inline-block;
-};
 
 </style>
 
@@ -419,13 +411,14 @@ transform: translateX(26px);
 <div class="sidenav left">
 
 <h3>Welcome to my Old School Runescape Quest Tracker</h3>
+
+<a href="https://github.com/nheiser/Runescape-Quest-Tracker" style="color:yellow; font-size: 13px;">https://github.com/nheiser/Runescape-Quest-Tracker</a>
+
 <!--
 <p>Feel free to use this application to track your progress in game and make your way towards that Quest Cape</p>
-<p>There are over 144 quests in this game with many being added all the time.</p>
+<p>There are over 153 quests in this game with many being added all the time.</p>
 -->
 <p>Collapsible Mode automatically hides quests that you have already completed</p>
-
-
 
 
 <button class="" onclick="checkAll()">Check All</button>
@@ -457,6 +450,46 @@ Allow Red Click
 <h2 style="text-align:center"><span>Quest Points: </span><span id="Quest Points" onclick="getQuestPoints()">0</span><span>/275</span>
 </h2>
 
+
+<label for="quests">Choose Quest Series:</label>
+
+<select id="quest" onchange="showQuests()">
+
+	<option>All</option>
+	<option>Another Slice of H.A.M.</option>
+	<option>The Ascent of Arceuus</option>
+	<option>Between a Rock...</option>
+	<option>Contact!</option>
+	<option>Dragon Slayer II</option>
+	<option>The Depths of Despair</option>
+	<option>Devious Minds</option>
+	<option>Elemental Workshop II</option>
+	<option>Fairytale II - Cure a Queen</option>
+	<option value="Forgettable Tale...">Forgettable Tale of a Drunken Dwarf</option>
+	<option>The Forsaken Tower</option>
+	<option>The Fremennik Exiles</option>
+	<option>The Great Brain Robbery</option>
+	<option>Grim Tales</option>
+	<option>Haunted Mine</option>
+	<option>King's Ransom</option>
+	<option>Making Friends with My Arm</option>
+	<option>Monkey Madness II</option>
+	<option>Olaf's Quest</option>
+	<option>The Queen of Thieves</option>
+	<option>Rag and Bone Man II</option>
+	<option>Ratcatchers</option>
+	<option>Recipe for Disaster</option>
+	<option>Royal Trouble</option>
+	<option>Shades of Mort'ton</option>
+	<option>The Slug Menace</option>
+	<option>Song of the Elves</option>
+	<option>Tai Bwo Wannai Trio</option>
+	<option>Tale of the Righteous</option>
+	<option>A Taste of Hope</option>
+	<option>Troll Romance</option>
+	<option>What Lies Below</option>
+
+</select>
 
 <body>
 
@@ -1874,14 +1907,15 @@ Allow Red Click
 
 var collapsible = false;
 var redClick = false;
-	
+
 $(document).ready(function(){
 
+	showQuests();
 	$(".chip, .quest").click(function(){
 	
 	var nodes = getAllNodes(this);
 	
-	if (this.classList.contains("ready") && isCompletable(this)){
+	if (this.classList.contains("ready") && isCompletable(this, true)){
 		
 		for (var i = 0; i < nodes.length; i++){
 			
@@ -1921,7 +1955,7 @@ $(document).ready(function(){
 		
 		for (var i = list.length - 1; i >= 0; i--){
 		
-			if (!isCompletable(list[i])){
+			if (!isCompletable(list[i], false)){
 				
 				list[i].classList.remove("active");
 				list[i].classList.add("ready");
@@ -2010,7 +2044,7 @@ function setParents(node){
 		return false;
 	}
 	
-	var parent = $(node).parent("li").parent("ul").parent("li").find("span:first");//.addClass("ready");
+	var parent = $(node).parent("li").parent("ul").parent("li").find("span:first");
 	
 	if (!parent[0].classList.contains("active")){
 		parent[0].classList.add("ready");
@@ -2141,70 +2175,76 @@ function uncheckAll(){
 }
 
 
-function isCompletable(node){
+function isCompletable(node, show){
 
 	var b = true;
 	var points = getQuestPoints();
+	var message = "";
 	
 	switch (node.innerHTML){
 	
 		case "Black Knights' Fortress":
 			if (points < 12){
-				window.alert("You need at least 12 quest points to complete this quest");
+				message = "You need at least 12 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Enlightened Journey":
 			if (points < 20){
-				window.alert("You need at least 20 quest points to complete this quest");
+				message = "You need at least 20 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Dragon Slayer":
 			if (points < 32){
-				window.alert("You need at least 32 quest points to complete this quest");
+				message = "You need at least 32 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Wanted!":
 			if (points < 32){
-				window.alert("You need at least 32 quest points to complete this quest");
+				message = "You need at least 32 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Tears of Guthix":
 			if (points < 43){
-				window.alert("You need at least 43 quest points to complete this quest");
+				message = "You need at least 43 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Heroes' Quest":
 			if (points < 55){
-				window.alert("You need at least 55 quest points to complete this quest");
+				message = "You need at least 55 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Swan Song":
 			if (points < 100){
-				window.alert("You need at least 100 quest points to complete this quest");
+				message = "You need at least 100 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Legends' Quest":
 			if (points < 107){
-				window.alert("You need at least 107 quest points to complete this quest");
+				message = "You need at least 107 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Freeing Sir Amik Varze":
 			if (points < 107){
-				window.alert("You need at least 107 quest points to complete this quest");
+				message = "You need at least 107 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Recipe for Disaster":
 			if (points < 175){
-				window.alert("You need at least 175 quest points to complete this quest");
+				message = "You need at least 175 quest points to complete this quest";
 				b = false;
 			} break;
 		case "Dragon Slayer II":
 			if (points < 200){
-				window.alert("You need at least 200 quest points to complete this quest");
+				message = "You need at least 200 quest points to complete this quest";
 				b = false;
 			}
 			
 	}
+	 if (message != "" && show){
+	 
+		alert(message);
+	 
+	 }
 	
 	return b;
 	
@@ -2237,6 +2277,27 @@ function toggleRedClick(){
 
 }
 
+function showQuests(){
+
+	var selected = document.getElementById("quest");
+	var quests = $(".stop");
+	
+	for (var i = 0; i < quests.length; i++){
+		
+		if (quests[i].children[0].children[0].textContent == selected.value || selected.value == "All"){
+			
+			quests[i].classList.remove("hidden");
+			
+		}else {
+		
+			quests[i].classList.add("hidden");
+		
+		}
+
+	}
+
+}
+
 function toggleCollapse(){
 
 	var checkBox = document.getElementById("Collapse");
@@ -2249,8 +2310,8 @@ function toggleCollapse(){
 
 		for (var i = 0; i < list.length; i++){
 
-			if (isUnlocked(list[i])){
-
+			if (isUnlocked(list[i]) && !list[i].parentElement.parentElement.classList.contains("stop")){
+				
 				list[i].parentElement.parentElement.classList.add("collapsed");
 
 			}
