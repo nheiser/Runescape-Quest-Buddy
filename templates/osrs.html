@@ -261,7 +261,7 @@ transform: translateX(26px);
 <ul><span class="1 leaf ready quest">Rune Mysteries</span></ul>
 <ul><span class="1 leaf ready quest">Sheep Shearer</span></ul>
 <ul><span class="1 leaf ready quest">Shield of Arrav</span></ul>
-<ul><span class="3 leaf ready quest">Vampire Slayer</span></ul>
+<ul><span class="3 leaf ready quest">Vampyre Slayer</span></ul>
 <ul><span class="1 leaf ready quest">Witch's Potion</span></ul>
 <ul><span class="1 leaf ready quest">X Marks the Spot</span></ul>
 
@@ -376,6 +376,7 @@ transform: translateX(26px);
 <ul><span class="1 quest">Shadow of the Storm</span></ul>
 <ul><span class="4 leaf ready quest">Sheep Herder</span></ul>
 <ul><span class="2 quest">Shilo Village</span></ul>
+<ul><span class="2 quest">Sins of the Father</span></ul>
 <ul><span class="1 quest">The Slug Menace</span></ul>
 <ul><span class="4 quest">Song of the Elves</span></ul>
 <ul><span class="1 leaf ready quest">A Soul's Bane</span></ul>
@@ -447,7 +448,7 @@ Allow Red Click
 <section class="content">
 
 <h2 style="text-align:center">OSRS Quest Tracker</h2>
-<h2 style="text-align:center"><span>Quest Points: </span><span id="Quest Points" onclick="getQuestPoints()">0</span><span>/275</span>
+<h2 style="text-align:center"><span>Quest Points: </span><span id="Quest Points" onclick="getQuestPoints()">0</span><span>/277</span>
 </h2>
 
 
@@ -455,7 +456,7 @@ Allow Red Click
 
 <select id="quest" onchange="showQuests()">
 
-	<option>All</option>
+	<option value="All">Select a Quest</option>
 	<option>Another Slice of H.A.M.</option>
 	<option>The Ascent of Arceuus</option>
 	<option>Between a Rock...</option>
@@ -480,12 +481,12 @@ Allow Red Click
 	<option>Ratcatchers</option>
 	<option>Recipe for Disaster</option>
 	<option>Royal Trouble</option>
+	<option>Sins of the Father</option>
 	<option>Shades of Mort'ton</option>
 	<option>The Slug Menace</option>
 	<option>Song of the Elves</option>
 	<option>Tai Bwo Wannai Trio</option>
 	<option>Tale of the Righteous</option>
-	<option>A Taste of Hope</option>
 	<option>Troll Romance</option>
 	<option>What Lies Below</option>
 
@@ -1352,47 +1353,56 @@ Allow Red Click
 <!--done-->
 <ul id="myUL" class="stop">
 
-	<li><span class="1 caret chip">A Taste of Hope</span>
+	<li><span class="2 caret chip">Sins of the Father</span>
 
 		<ul class="nested">
 		
-			<li><span class="2 caret chip">Darkness of Hallowvale</span>
-			
+		<li><span class="3 leaf ready caret chip">Vampyre Slayer</span></li>
+		<li><span class="1 caret chip">A Taste of Hope</span>
+
 			<ul class="nested">
+		
+				<li><span class="2 caret chip">Darkness of Hallowvale</span>
 			
-				<li><span class="2 caret chip">In Aid of the Myreque</span>
-				
 				<ul class="nested">
-					
-					<li><span class="2 caret chip">In Search of the Myreque</span>
-					
+			
+					<li><span class="2 caret chip">In Aid of the Myreque</span>
+				
 					<ul class="nested">
 					
-						<li><span class="2 caret chip">Nature Spirit</span>
-				
+						<li><span class="2 caret chip">In Search of the Myreque</span>
+					
 						<ul class="nested">
-							
-							<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
-							<li><span class="1 leaf ready caret chip">The Restless Ghost</span></li>
-							
-						</ul>
-
-						</li>
 					
-					</ul>
-						
-					</li>
-						
-				</ul>
+							<li><span class="2 caret chip">Nature Spirit</span>
 				
-				</li>
+							<ul class="nested">
+							
+								<li><span class="1 leaf ready caret chip">Priest in Peril</span></li>
+								<li><span class="1 leaf ready caret chip">The Restless Ghost</span></li>
+							
+							</ul>
+
+							</li>
 					
+						</ul>
+						
+						</li>
+						
+					</ul>
+				
+					</li>
+					
+				</ul>
+			
+				</li>
+			
 			</ul>
 			
-			</li>
-			
+		</li>
+		
 		</ul>
-			
+	
 	</li>
 
 </ul>
