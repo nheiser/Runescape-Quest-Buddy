@@ -221,6 +221,26 @@ transform: translateX(26px);
 }
 
 .hidden {
-	display: none;
+	display: none;	
+}
+
+.img {
+	width: 96px;
+	height: 96px;
+}
+
+.five {
+	
+	content:url('https://www.runescape.com/img/rsp777/scroll/backdrop_745.gif');
+	
 	
 }
+
+
+
+
+
+
+
+
+
