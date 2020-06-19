@@ -77,6 +77,7 @@ body {
 .chip {
 	display: inline-block;
 	padding: 0 25px;
+	white-space: nowrap;
 	height: 45px;
 	font-size: 16px;
 	line-height: 45px;
