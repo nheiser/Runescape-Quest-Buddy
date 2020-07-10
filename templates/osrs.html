@@ -6,11 +6,11 @@
 <link href="static/css/main.css" rel="stylesheet">
 <script type="text/javascript" src="hits.php"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
 </head>
 
 <title>OSRS Quest Tracker</title>
-
 
 <!--154 Total Quests-->
 <div id="questbar" class="sidenav right">
@@ -189,7 +189,11 @@
 
 <a href="https://github.com/nheiser/Runescape-Quest-Tracker" style="color:yellow; font-size: 13px;">https://github.com/nheiser/Runescape-Quest-Tracker</a>
 
+<!--
 <p>Collapsible Mode hides quests that you have completed</p>
+-->
+
+<br><br>
 
 <button class="" onclick="checkAll()">Check All</button>
 <br>
@@ -197,20 +201,59 @@
 
 <br><br>
 
+<div ng-app="myApp">
 
-<label class="switch">
-	<input id = "Collapse" onclick="toggleCollapse()" type="checkbox">
-	<span class="slider round"></span>
-</label>
-Collapsible Mode
+Collapsible Mode: <input type="checkbox" ng-click="toggleCollapse()" ng-controller="collapseCtrl" ng-model="collapse"><br>
+Allow Red Click: <input type="checkbox" ng-click="toggleRedClick()" ng-controller="redCtrl" ng-model="red"><br>
 
-<br>
+</div>
 
-<label class="switch">
-	<input id = "red" onclick="toggleRedClick()" type="checkbox">
-	<span class="slider round"></span>
-</label>
-Allow Red Click
+<script>
+var app = angular.module('myApp', []);
+app.controller('collapseCtrl', function($scope) {
+  
+  $scope.toggleCollapse = function() {
+	 collapsible = !collapsible;
+	 
+	 if (collapsible == true){
+	 
+		var list = document.querySelectorAll(".chip");
+
+		for (var i = 0; i < list.length; i++){
+
+			if (isUnlocked(list[i]) && !list[i].parentElement.parentElement.classList.contains("stop")){
+				
+				list[i].parentElement.parentElement.classList.add("collapsed");
+
+			}
+
+		}
+
+	}else {
+
+		var list = document.querySelectorAll(".nested");
+
+		for (var i = 0; i < list.length; i++){
+
+			list[i].classList.remove("collapsed");
+
+		}
+
+	}
+	 
+  };
+});
+
+app.controller('redCtrl', function($scope) {
+  
+  $scope.toggleRedClick = function() {
+	 redClick = !redClick;
+  };
+  
+});
+
+</script>
+
 
 </div>
 
@@ -220,8 +263,7 @@ Allow Red Click
 <h2 style="text-align:center"><span>Quest Points: </span><span id="Quest Points" onclick="getQuestPoints()">0</span><span>/277</span>
 </h2>
 
-<!-- -->
-<label for="quests">Choose Quest Series:</label>
+<label for="quests">Choose Quest:</label>
 
 <select id="quest" onchange="showQuests()">
 
@@ -2052,12 +2094,6 @@ function getQuestPoints(){
 	
 }
 
-function toggleRedClick(){
-
-	redClick = !redClick;
-
-}
-
 function showQuests(){
 
 	var selected = document.getElementById("quest");
@@ -2073,41 +2109,6 @@ function showQuests(){
 		
 			quests[i].classList.add("hidden");
 		
-		}
-
-	}
-
-}
-
-function toggleCollapse(){
-
-	var checkBox = document.getElementById("Collapse");
-	checkBox.classList.toggle("success");
-
-	if (checkBox.checked == true){
-		collapsible = true;
-
-		var list = document.querySelectorAll(".chip");
-
-		for (var i = 0; i < list.length; i++){
-
-			if (isUnlocked(list[i]) && !list[i].parentElement.parentElement.classList.contains("stop")){
-				
-				list[i].parentElement.parentElement.classList.add("collapsed");
-
-			}
-
-		}
-
-	}else {
-
-		collapsible = false;
-		var list = document.querySelectorAll(".nested");
-
-		for (var i = 0; i < list.length; i++){
-
-			list[i].classList.remove("collapsed");
-
 		}
 
 	}
