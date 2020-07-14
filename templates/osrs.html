@@ -10,7 +10,7 @@
 
 </head>
 
-<title>OSRS Quest Tracker</title>
+<title>OSRS Quest Buddy</title>
 
 <!--154 Total Quests-->
 <div id="questbar" class="sidenav right">
@@ -185,9 +185,9 @@
 
 <div class="sidenav left">
 
-<h3>Welcome to the Old School Runescape Quest Tracker</h3>
+<h3>Welcome to the Old School Runescape Quest Buddy</h3>
 
-<a href="https://github.com/nheiser/Runescape-Quest-Tracker" style="color:yellow; font-size: 13px;">https://github.com/nheiser/Runescape-Quest-Tracker</a>
+<a href="https://github.com/nheiser/Runescape-Quest-Buddy" style="color:yellow; font-size: 13px;">https://github.com/nheiser/Runescape-Quest-Buddy</a>
 
 <!--
 <p>Collapsible Mode hides quests that you have completed</p>
@@ -259,7 +259,7 @@ app.controller('redCtrl', function($scope) {
 
 <section class="content">
 
-<h2 style="text-align:center">OSRS Quest Tracker</h2>
+<h2 style="text-align:center">OSRS Quest Buddy</h2>
 <h2 style="text-align:center"><span>Quest Points: </span><span id="Quest Points" onclick="getQuestPoints()">0</span><span>/277</span>
 </h2>
 
@@ -1724,6 +1724,7 @@ var redClick = false;
 $(document).ready(function(){
 
 	showQuests();
+	
 	$(".chip, .quest").click(function(){
 	
 	var nodes = getAllNodes(this);
